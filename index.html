@@ -1,11 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+  <title>API Display</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+    .button-container {
+      position: relative;
+      margin: 10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+    }
+    .patched-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 0, 0, 0.5);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      visibility: hidden;
+    }
+    .patched .patched-overlay {
+      visibility: visible;
+    }
+  </style>
 </head>
 <body>
-    <h1>hello from melon!</h1>
+  <h1>API Data Display</h1>
+  <div id="buttons-container"></div>
+
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/getexecutors');
+        const data = await response.json();
+        const container = document.getElementById('buttons-container');
+
+        data.data.forEach(executor => {
+          const buttonContainer = document.createElement('div');
+          buttonContainer.className = 'button-container';
+
+          const button = document.createElement('button');
+          button.className = 'button';
+          button.textContent = executor.name;
+          button.onclick = () => alert(executor.description);
+
+          const overlay = document.createElement('div');
+          overlay.className = 'patched-overlay';
+          overlay.textContent = 'Patched';
+
+          buttonContainer.appendChild(button);
+          buttonContainer.appendChild(overlay);
+          if (executor.patched) {
+            buttonContainer.classList.add('patched');
+          }
+          container.appendChild(buttonContainer);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    window.onload = fetchData;
+  </script>
 </body>
 </html>
