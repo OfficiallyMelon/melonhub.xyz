@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Get Executors API</title>
-  <script>
-    // This function will handle the API request and serve the JSON data
-    function handleRequest() {
-      fetch('/api/rawdata/executors.json')
-        .then(response => response.json())
-        .then(data => {
-          // Set the response header and content type for JSON
-          document.open();
-          document.write('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
-          document.close();
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
+{
+  "executors": [
+    {
+      "name": "Executor Name Example",
+      "link": "http://example.com",
+      "details": "Description of the executor, its features, and usage.",
+      "patched": false,
+      "updated_for_version": "1.0.0"
+    },
+    {
+      "name": "Another Executor",
+      "link": "http://anotherexample.com",
+      "details": "Information about another executor, including its unique features.",
+      "patched": true,
+      "updated_for_version": "2.3.4"
     }
-
-    // Execute the function when the page loads
-    window.onload = handleRequest;
-  </script>
-</head>
-<body>
-  <!-- The JSON data will be inserted here -->
-</body>
-</html>
+  ]
+}
