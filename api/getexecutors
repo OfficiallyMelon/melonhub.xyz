@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Example</title>
+  <script>
+    async function fetchData() {
+      const response = await fetch('/api/rawdata/executors.json');
+      const data = await response.json();
+      document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+    }
+    window.onload = fetchData;
+  </script>
+</head>
+<body>
+  <h1>API Data</h1>
+  <pre id="data"></pre>
+</body>
+</html>
