@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>API Endpoint</title>
+  <title>Get Executors API</title>
   <script>
-    async function handleRequest() {
-      const response = await fetch('/api/rawdata/executors.json');
-      const data = await response.json();
-      
-      // Serve JSON as text
-      document.open();
-      document.write('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
-      document.close();
+    // This function will handle the API request and serve the JSON data
+    function handleRequest() {
+      fetch('/api/rawdata/executors.json')
+        .then(response => response.json())
+        .then(data => {
+          // Set the response header and content type for JSON
+          document.open();
+          document.write('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+          document.close();
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
     }
 
+    // Execute the function when the page loads
     window.onload = handleRequest;
   </script>
 </head>
 <body>
-  <!-- The API response will be inserted here -->
+  <!-- The JSON data will be inserted here -->
 </body>
 </html>
