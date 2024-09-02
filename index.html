@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>API Display</title>
+  <title>Executor Display</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,6 +13,7 @@
     .button-container {
       position: relative;
       margin: 10px;
+      text-align: center;
     }
     .button {
       display: inline-block;
@@ -23,7 +24,12 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      text-decoration: none;
       position: relative;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #0056b3;
     }
     .patched-overlay {
       position: absolute;
@@ -44,10 +50,18 @@
     .patched .patched-overlay {
       visibility: visible;
     }
+    .details {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    .version {
+      font-size: 12px;
+      color: gray;
+    }
   </style>
 </head>
 <body>
-  <h1>API Data Display</h1>
+  <h1>Executors List</h1>
   <div id="buttons-container"></div>
 
   <script>
@@ -57,24 +71,37 @@
         const data = await response.json();
         const container = document.getElementById('buttons-container');
 
-        data.data.forEach(executor => {
+        data.executors.forEach(executor => {
           const buttonContainer = document.createElement('div');
           buttonContainer.className = 'button-container';
 
-          const button = document.createElement('button');
+          const button = document.createElement('a');
           button.className = 'button';
+          button.href = executor.link;
+          button.target = '_blank';
           button.textContent = executor.name;
-          button.onclick = () => alert(executor.description);
 
           const overlay = document.createElement('div');
           overlay.className = 'patched-overlay';
           overlay.textContent = 'Patched';
 
+          const details = document.createElement('div');
+          details.className = 'details';
+          details.textContent = executor.details;
+
+          const version = document.createElement('div');
+          version.className = 'version';
+          version.textContent = 'Updated for version: ' + executor.updated_for_version;
+
           buttonContainer.appendChild(button);
           buttonContainer.appendChild(overlay);
+          buttonContainer.appendChild(details);
+          buttonContainer.appendChild(version);
+
           if (executor.patched) {
             buttonContainer.classList.add('patched');
           }
+
           container.appendChild(buttonContainer);
         });
       } catch (error) {
