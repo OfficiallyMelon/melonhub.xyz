@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>API Example</title>
+  <title>API Endpoint</title>
   <script>
-    async function fetchData() {
+    async function handleRequest() {
       const response = await fetch('/api/rawdata/executors.json');
       const data = await response.json();
-      document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+      
+      // Serve JSON as text
+      document.open();
+      document.write('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+      document.close();
     }
-    window.onload = fetchData;
+
+    window.onload = handleRequest;
   </script>
 </head>
+<body>
+  <!-- The API response will be inserted here -->
+</body>
 </html>
